@@ -32,4 +32,9 @@ class SubCriteria extends Model
     {
         return $this->hasMany(EvaluationDetail::class);
     }
+
+    public function parameters()
+    {
+        return $this->hasMany(SubCriteriaParameter::class)->orderBy('urutan');
+    }
 }

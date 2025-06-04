@@ -102,14 +102,20 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div class="flex space-x-2">
+                            <a href="{{ route('super-admin.criteria.sub-criteria.parameters.index', [$criteria, $subCriteria]) }}" 
+                               class="btn btn-sm btn-info">
+                                <i class="fas fa-cog"></i> Parameter
+                            </a>
                             <a href="{{ route('super-admin.criteria.sub-criteria.edit', [$criteria, $subCriteria]) }}" 
-                               class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                            <form action="{{ route('super-admin.criteria.sub-criteria.destroy', [$criteria, $subCriteria]) }}" method="POST" class="inline">
+                               class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <form action="{{ route('super-admin.criteria.sub-criteria.destroy', [$criteria, $subCriteria]) }}" 
+                                  method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900" 
-                                        onclick="return confirm('Yakin ingin menghapus sub kriteria ini?')">
-                                    Hapus
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Hapus
                                 </button>
                             </form>
                         </div>

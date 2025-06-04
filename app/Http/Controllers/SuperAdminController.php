@@ -8,6 +8,7 @@ use App\Models\Evaluation;
 use App\Models\Criteria;
 use App\Models\SubCriteria;
 use App\Models\AhpMatrix;
+use App\Models\SubCriteriaParameter;
 use App\Services\AhpService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -503,5 +504,60 @@ class SuperAdminController extends Controller
         
         return response()->json($data)
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
+    // Sub Criteria Parameters Management
+    public function subCriteriaParametersIndex(Criteria $criteria, SubCriteria $subCriteria)
+    {
+        $parameters = $subCriteria->parameters()->orderBy('urutan')->get();
+        return view('super-admin.criteria.sub-criteria.parameters.index', compact('criteria', 'subCriteria', 'parameters'));
+    }
+
+    public function subCriteriaParametersCreate(Criteria $criteria, SubCriteria $subCriteria)
+    {
+        return view('super-admin.criteria.sub-criteria.parameters.create', compact('criteria', 'subCriteria'));
+    }
+
+    public function subCriteriaParametersStore(Request $request, Criteria $criteria, SubCriteria $subCriteria)
+    {
+        $request->validate([
+            'parameter_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'nilai' => 'required|numeric|min:0',
+            'urutan' => 'required|integer|min:1',
+        ]);
+
+        $subCriteria->parameters()->create($request->all());
+
+        return redirect()->route('super-admin.criteria.sub-criteria.parameters.index', [$criteria, $subCriteria])
+            ->with('success', 'Parameter berhasil ditambahkan.');
+    }
+
+    public function subCriteriaParametersEdit(Criteria $criteria, SubCriteria $subCriteria, SubCriteriaParameter $parameter)
+    {
+        return view('super-admin.criteria.sub-criteria.parameters.edit', compact('criteria', 'subCriteria', 'parameter'));
+    }
+
+    public function subCriteriaParametersUpdate(Request $request, Criteria $criteria, SubCriteria $subCriteria, SubCriteriaParameter $parameter)
+    {
+        $request->validate([
+            'parameter_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'nilai' => 'required|numeric|min:0',
+            'urutan' => 'required|integer|min:1',
+            'is_active' => 'boolean',
+        ]);
+
+        $parameter->update($request->all());
+
+        return redirect()->route('super-admin.criteria.sub-criteria.parameters.index', [$criteria, $subCriteria])
+            ->with('success', 'Parameter berhasil diperbarui.');
+    }
+
+    public function subCriteriaParametersDestroy(Criteria $criteria, SubCriteria $subCriteria, SubCriteriaParameter $parameter)
+    {
+        $parameter->delete();
+        return redirect()->route('super-admin.criteria.sub-criteria.parameters.index', [$criteria, $subCriteria])
+            ->with('success', 'Parameter berhasil dihapus.');
     }
 }
