@@ -3,65 +3,146 @@
 namespace Database\Seeders;
 
 use App\Models\Criteria;
-use App\Models\SubCriteria;
+use App\Models\Subcriteria;
 use Illuminate\Database\Seeder;
 
-class SubCriteriaSeeder extends Seeder
+class SubcriteriaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $subCriterias = [
-            // Character (C1)
-            'C1' => [
-                ['kode' => 'C1.1', 'nama' => 'Checking BI', 'deskripsi' => 'Pemeriksaan riwayat kredit di Bank Indonesia'],
-                ['kode' => 'C1.2', 'nama' => 'Usia', 'deskripsi' => 'Usia pemohon kredit'],
-                ['kode' => 'C1.3', 'nama' => 'Prestasi Pekerjaan', 'deskripsi' => 'Pencapaian dan prestasi dalam pekerjaan'],
-                ['kode' => 'C1.4', 'nama' => 'Karakter', 'deskripsi' => 'Penilaian kepribadian dan integritas'],
-                ['kode' => 'C1.5', 'nama' => 'Loyalitas Nasabah', 'deskripsi' => 'Frekuensi transaksi dan loyalitas sebagai nasabah'],
+        // Get criteria IDs
+        $character = Criteria::where('code', 'C1')->first();
+        $capacity = Criteria::where('code', 'C2')->first();
+        $capital = Criteria::where('code', 'C3')->first();
+        $collateral = Criteria::where('code', 'C4')->first();
+        $condition = Criteria::where('code', 'C5')->first();
+
+        $subcriteria = [
+            // Character Subcriteria
+            [
+                'criteria_id' => $character->id,
+                'code' => 'C1.1',
+                'name' => 'Checking BI',
+                'description' => 'Riwayat kredit nasabah di Bank Indonesia',
+                'weight' => 0.0
             ],
-            // Capacity (C2)
-            'C2' => [
-                ['kode' => 'C2.1', 'nama' => 'Penghasilan Pribadi', 'deskripsi' => 'Pendapatan bulanan pemohon'],
-                ['kode' => 'C2.2', 'nama' => 'Penghasilan Pasangan', 'deskripsi' => 'Pendapatan bulanan pasangan (jika ada)'],
-                ['kode' => 'C2.3', 'nama' => 'Performa Kredit Sebelumnya', 'deskripsi' => 'Riwayat pembayaran kredit sebelumnya'],
+            [
+                'criteria_id' => $character->id,
+                'code' => 'C1.2',
+                'name' => 'Usia',
+                'description' => 'Usia nasabah saat mengajukan kredit',
+                'weight' => 0.0
             ],
-            // Capital (C3)
-            'C3' => [
-                ['kode' => 'C3.1', 'nama' => 'Pekerjaan', 'deskripsi' => 'Jenis dan stabilitas pekerjaan'],
-                ['kode' => 'C3.2', 'nama' => 'Hutang Berjalan Pemohon', 'deskripsi' => 'Kewajiban hutang yang masih aktif'],
-                ['kode' => 'C3.3', 'nama' => 'Tabungan Pemohon', 'deskripsi' => 'Jumlah tabungan dan investasi'],
+            [
+                'criteria_id' => $character->id,
+                'code' => 'C1.3',
+                'name' => 'Prestasi Pekerjaan',
+                'description' => 'Prestasi dan pencapaian dalam pekerjaan',
+                'weight' => 0.0
             ],
-            // Collateral (C4)
-            'C4' => [
-                ['kode' => 'C4.1', 'nama' => 'Nilai Properti', 'deskripsi' => 'Nilai pasar properti yang dijadikan jaminan'],
-                ['kode' => 'C4.2', 'nama' => 'Kualitas Properti', 'deskripsi' => 'Kondisi dan kualitas properti jaminan'],
+            [
+                'criteria_id' => $character->id,
+                'code' => 'C1.4',
+                'name' => 'Karakter',
+                'description' => 'Sifat dan perilaku nasabah dalam kehidupan sehari-hari',
+                'weight' => 0.0
             ],
-            // Condition (C5)
-            'C5' => [
-                ['kode' => 'C5.1', 'nama' => 'Jangka Waktu Kredit', 'deskripsi' => 'Periode waktu pengembalian kredit'],
-                ['kode' => 'C5.2', 'nama' => 'Suku Bunga', 'deskripsi' => 'Tingkat suku bunga kredit'],
-                ['kode' => 'C5.3', 'nama' => 'Inflasi', 'deskripsi' => 'Kondisi inflasi ekonomi saat ini'],
+            [
+                'criteria_id' => $character->id,
+                'code' => 'C1.5',
+                'name' => 'Loyalitas Nasabah',
+                'description' => 'Kesetiaan nasabah terhadap bank',
+                'weight' => 0.0
             ],
+
+            // Capacity Subcriteria
+            [
+                'criteria_id' => $capacity->id,
+                'code' => 'C2.1',
+                'name' => 'Penghasilan Pribadi',
+                'description' => 'Penghasilan bulanan nasabah dari pekerjaan utama',
+                'weight' => 0.0
+            ],
+            [
+                'criteria_id' => $capacity->id,
+                'code' => 'C2.2',
+                'name' => 'Penghasilan Pasangan',
+                'description' => 'Penghasilan bulanan pasangan nasabah',
+                'weight' => 0.0
+            ],
+            [
+                'criteria_id' => $capacity->id,
+                'code' => 'C2.3',
+                'name' => 'Performa Kredit Sebelumnya',
+                'description' => 'Riwayat pembayaran kredit sebelumnya',
+                'weight' => 0.0
+            ],
+
+            // Capital Subcriteria
+            [
+                'criteria_id' => $capital->id,
+                'code' => 'C3.1',
+                'name' => 'Pekerjaan',
+                'description' => 'Status dan jenis pekerjaan nasabah',
+                'weight' => 0.0
+            ],
+            [
+                'criteria_id' => $capital->id,
+                'code' => 'C3.2',
+                'name' => 'Hutang Berjalan Pemohon',
+                'description' => 'Total hutang yang sedang berjalan',
+                'weight' => 0.0
+            ],
+            [
+                'criteria_id' => $capital->id,
+                'code' => 'C3.3',
+                'name' => 'Tabungan Pemohon',
+                'description' => 'Jumlah tabungan yang dimiliki nasabah',
+                'weight' => 0.0
+            ],
+
+            // Collateral Subcriteria
+            [
+                'criteria_id' => $collateral->id,
+                'code' => 'C4.1',
+                'name' => 'Nilai Properti',
+                'description' => 'Nilai pasar properti yang dijadikan jaminan',
+                'weight' => 0.0
+            ],
+            [
+                'criteria_id' => $collateral->id,
+                'code' => 'C4.2',
+                'name' => 'Kualitas Properti',
+                'description' => 'Kondisi dan kualitas properti jaminan',
+                'weight' => 0.0
+            ],
+
+            // Condition Subcriteria
+            [
+                'criteria_id' => $condition->id,
+                'code' => 'C5.1',
+                'name' => 'Jangka Waktu Kredit',
+                'description' => 'Periode waktu pengembalian kredit',
+                'weight' => 0.0
+            ],
+            [
+                'criteria_id' => $condition->id,
+                'code' => 'C5.2',
+                'name' => 'Suku Bunga',
+                'description' => 'Tingkat suku bunga yang berlaku',
+                'weight' => 0.0
+            ],
+            [
+                'criteria_id' => $condition->id,
+                'code' => 'C5.3',
+                'name' => 'Inflasi',
+                'description' => 'Kondisi inflasi pada saat pengajuan kredit',
+                'weight' => 0.0
+            ]
         ];
 
-        foreach ($subCriterias as $criteriaKode => $subs) {
-            $criteria = Criteria::where('kode', $criteriaKode)->first();
-            
-            if ($criteria) {
-                foreach ($subs as $sub) {
-                    SubCriteria::create([
-                        'criteria_id' => $criteria->id,
-                        'kode' => $sub['kode'],
-                        'nama' => $sub['nama'],
-                        'deskripsi' => $sub['deskripsi'],
-                        'bobot' => 0.0000,
-                        'is_active' => true,
-                    ]);
-                }
-            }
+        foreach ($subcriteria as $sub) {
+            Subcriteria::create($sub);
         }
     }
 }

@@ -9,26 +9,17 @@ class Criteria extends Model
 {
     use HasFactory;
 
+    protected $table = 'criteria';
+
     protected $fillable = [
-        'kode',
-        'nama',
-        'deskripsi',
-        'bobot',
-        'is_active'
+        'code',
+        'name',
+        'description',
+        'weight'
     ];
 
-    protected $casts = [
-        'bobot' => 'decimal:4',
-        'is_active' => 'boolean',
-    ];
-
-    public function subCriterias()
+    public function subcriteria()
     {
-        return $this->hasMany(SubCriteria::class);
-    }
-
-    public function evaluations()
-    {
-        return $this->hasMany(Evaluation::class);
+        return $this->hasMany(Subcriteria::class);
     }
 }

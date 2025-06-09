@@ -10,33 +10,19 @@ class Evaluation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'customer_id',
-        'evaluator_id',
-        'total_score',
-        'ranking',
-        'recommendation',
-        'status',
-        'notes',
-        'evaluated_at'
+        'alternative_id',
+        'subcriteria_id',
+        'value',
+        'normalized_value'
     ];
 
-    protected $casts = [
-        'total_score' => 'decimal:4',
-        'evaluated_at' => 'datetime',
-    ];
-
-    public function customer()
+    public function alternative()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Alternative::class);
     }
 
-    public function evaluator()
+    public function subcriteria()
     {
-        return $this->belongsTo(User::class, 'evaluator_id');
-    }
-
-    public function details()
-    {
-        return $this->hasMany(EvaluationDetail::class);
+        return $this->belongsTo(Subcriteria::class);
     }
 }

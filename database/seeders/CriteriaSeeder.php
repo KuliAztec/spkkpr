@@ -7,51 +7,43 @@ use Illuminate\Database\Seeder;
 
 class CriteriaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $criterias = [
+        $criteria = [
             [
-                'kode' => 'C1',
-                'nama' => 'Character',
-                'deskripsi' => 'Penilaian karakter dan kepribadian pemohon kredit',
-                'bobot' => 0.0000,
-                'is_active' => true,
+                'code' => 'C1',
+                'name' => 'Character',
+                'description' => 'Kriteria karakter dan kepribadian nasabah dalam hal kredibilitas dan kejujuran',
+                'weight' => 0.0
             ],
             [
-                'kode' => 'C2',
-                'nama' => 'Capacity',
-                'deskripsi' => 'Kemampuan pemohon untuk membayar kredit',
-                'bobot' => 0.0000,
-                'is_active' => true,
+                'code' => 'C2',
+                'name' => 'Capacity',
+                'description' => 'Kriteria kemampuan nasabah dalam membayar kredit berdasarkan penghasilan',
+                'weight' => 0.0
             ],
             [
-                'kode' => 'C3',
-                'nama' => 'Capital',
-                'deskripsi' => 'Modal dan aset yang dimiliki pemohon',
-                'bobot' => 0.0000,
-                'is_active' => true,
+                'code' => 'C3',
+                'name' => 'Capital',
+                'description' => 'Kriteria modal dan kekayaan yang dimiliki nasabah',
+                'weight' => 0.0
             ],
             [
-                'kode' => 'C4',
-                'nama' => 'Collateral',
-                'deskripsi' => 'Jaminan yang diberikan pemohon',
-                'bobot' => 0.0000,
-                'is_active' => true,
+                'code' => 'C4',
+                'name' => 'Collateral',
+                'description' => 'Kriteria jaminan yang dapat diberikan nasabah',
+                'weight' => 0.0
             ],
             [
-                'kode' => 'C5',
-                'nama' => 'Condition',
-                'deskripsi' => 'Kondisi ekonomi dan persyaratan kredit',
-                'bobot' => 0.0000,
-                'is_active' => true,
-            ],
+                'code' => 'C5',
+                'name' => 'Condition',
+                'description' => 'Kriteria kondisi ekonomi dan syarat-syarat kredit',
+                'weight' => 0.0
+            ]
         ];
 
-        foreach ($criterias as $criteria) {
-            Criteria::create($criteria);
+        foreach ($criteria as $criterion) {
+            Criteria::create($criterion);
         }
     }
 }
