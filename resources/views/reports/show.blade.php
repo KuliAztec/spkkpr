@@ -46,14 +46,14 @@
                     <div id="exportMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                         <div class="py-1">
                             <a href="{{ route('reports.export', $report) }}?format=excel" 
-                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 items-center">
                                 <svg class="w-4 h-4 mr-2 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 Export Excel
                             </a>
                             <a href="{{ route('reports.export', $report) }}?format=pdf" 
-                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 items-center">
                                 <svg class="w-4 h-4 mr-2 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
@@ -132,35 +132,35 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($report->alternatives as $alternative)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if($alternative->rank > 0)
-                                    <div class="flex items-center">
-                                        @if($alternative->rank == 1)
-                                            <div class="h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center">
-                                                <span class="text-white font-bold text-sm">🏆</span>
-                                            </div>
-                                        @elseif($alternative->rank == 2)
-                                            <div class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center">
-                                                <span class="text-white font-bold text-sm">🥈</span>
-                                            </div>
-                                        @elseif($alternative->rank == 3)
-                                            <div class="h-8 w-8 rounded-full bg-yellow-600 flex items-center justify-center">
-                                                <span class="text-white font-bold text-sm">🥉</span>
-                                            </div>
-                                        @else
-                                            <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center">
-                                                <span class="text-white font-bold text-sm">{{ $alternative->rank }}</span>
-                                            </div>
-                                        @endif
-                                        <span class="ml-3 text-sm font-medium text-gray-900">Peringkat {{ $alternative->rank }}</span>
-                                    </div>
-                                @else
-                                    <span class="text-gray-400">-</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
+                        @php
+                            // Status based on final score thresholds
+                            if ($alternative->final_score >= 0.1) {
+                                $status = 'Layak';
+                                $statusClass = 'bg-green-100 text-green-800';
+                            } else {
+                                $status = 'Tidak Layak';
+                                $statusClass = 'bg-red-100 text-red-800';
+                            }
+                        @endphp
+                        <tr class="{{ $alternative->rank <= 3 && $alternative->rank > 0 ? 'bg-green-50' : '' }}">
+                            <td class="rank-cell">{{ $alternative->rank > 0 ? $alternative->rank : '-' }}</td>
+                            <td>{{ $alternative->code }}</td>
+                            <td>{{ $alternative->name }}</td>
+                            <td>{{ $alternative->email ?: '-' }}</td>
+                            <td>{{ $alternative->phone ?: '-' }}</td>
+                            <td class="score-cell">{{ number_format($alternative->final_score, 4) }}</td>
+                            <td class="status-cell {{ $statusClass }}">{{ $status }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection
+
+<script>
+function toggleExportMenu() {
                                     <div class="flex-shrink-0 h-10 w-10">
                                         <div class="h-10 w-10 rounded-full bg-purple-500 flex items-center justify-center">
                                             <span class="text-white font-bold text-sm">{{ substr($alternative->name, 0, 2) }}</span>
@@ -177,15 +177,15 @@
                                 <div class="text-sm text-gray-500">{{ $alternative->phone ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span class="text-lg font-bold text-purple-600">
+                                <span class="text-lg font-bold text-purple-600">n-100 text-green-800;
                                     {{ number_format($alternative->final_score, 4) }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <td class="px-6 py-4 whitespace-nowrap text-center">100 text-red-800;
                                 @if($alternative->rank > 0)
                                     @if($alternative->rank <= 3)
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Sangat Layak
+                                            Sangat Layak0;
                                         </span>
                                     @elseif($alternative->rank <= 5)
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">

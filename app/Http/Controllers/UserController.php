@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+
 
 class UserController extends Controller
 {
@@ -78,7 +80,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         // Prevent deleting yourself
-        if ($user->id === auth()->id()) {
+        if ($user->id === Auth::id()) {
             return redirect()->route('users.index')
                 ->with('error', 'Anda tidak dapat menghapus akun sendiri');
         }

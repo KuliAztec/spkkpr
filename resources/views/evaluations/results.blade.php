@@ -56,6 +56,16 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($alternatives as $alternative)
+                        @php
+                            // Status based on final score thresholds
+                            if ($alternative->final_score >= 0.1) {
+                                $status = 'Layak';
+                                $statusClass = 'bg-green-100 text-green-800';
+                            } else {
+                                $status = 'Tidak Layak';
+                                $statusClass = 'bg-red-100 text-red-800';
+                            }
+                        @endphp
                         <tr class="hover:bg-gray-50 {{ $alternative->rank <= 3 ? 'bg-green-50' : '' }}">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
@@ -100,6 +110,12 @@
                             @endforeach
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                 <a href="{{ route('alternatives.show', $alternative) }}" class="text-indigo-600 hover:text-indigo-900">Detail</a>
+                            </td>
+                            <!-- Add status column if not exists, or update existing status logic -->
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
+                                    {{ $status }}
+                                </span>
                             </td>
                         </tr>
                     @endforeach

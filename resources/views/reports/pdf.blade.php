@@ -128,22 +128,16 @@
         <tbody>
             @foreach($alternatives as $alternative)
                 @php
-                    $status = 'Tidak Layak';
-                    $statusClass = 'status-poor';
-                    if ($alternative->rank > 0) {
-                        if ($alternative->rank <= 3) {
-                            $status = 'Sangat Layak';
-                            $statusClass = 'status-excellent';
-                        } elseif ($alternative->rank <= 5) {
-                            $status = 'Layak';
-                            $statusClass = 'status-good';
-                        } else {
-                            $status = 'Perlu Review';
-                            $statusClass = 'status-review';
-                        }
+                    // Status based on final score thresholds
+                    if ($alternative->final_score >= 0.1) {
+                        $status = 'Layak';
+                        $statusClass = 'status-good';
+                    } else {
+                        $status = 'Tidak Layak';
+                        $statusClass = 'status-poor';
                     }
                 @endphp
-                <tr class="{{ $alternative->rank <= 3 && $alternative->rank > 0 ? 'top-rank' : '' }}">
+                <tr class="{{ $alternative->final_score >= 0.1 ? 'top-rank' : '' }}">
                     <td class="rank-cell">{{ $alternative->rank > 0 ? $alternative->rank : '-' }}</td>
                     <td>{{ $alternative->code }}</td>
                     <td>{{ $alternative->name }}</td>
@@ -156,6 +150,12 @@
         </tbody>
     </table>
 
+    <div class="footer">
+        <p>Laporan digenerate pada {{ $exportDate->format('d F Y, H:i:s') }}</p>
+        <p>Sistem Pendukung Keputusan - Analytic Hierarchy Process (AHP)</p>
+    </div>
+</body>
+</html>
     <div class="footer">
         <p>Laporan digenerate pada {{ $exportDate->format('d F Y, H:i:s') }}</p>
         <p>Sistem Pendukung Keputusan - Analytic Hierarchy Process (AHP)</p>

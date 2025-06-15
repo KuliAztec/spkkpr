@@ -166,15 +166,11 @@ class ReportController extends Controller
         // Data rows
         $row = $headerRow + 1;
         foreach ($report->alternatives as $alternative) {
-            $status = 'Tidak Layak';
-            if ($alternative->rank > 0) {
-                if ($alternative->rank <= 3) {
-                    $status = 'Sangat Layak';
-                } elseif ($alternative->rank <= 5) {
-                    $status = 'Layak';
-                } else {
-                    $status = 'Perlu Review';
-                }
+            // Status based on final score thresholds
+            if ($alternative->final_score >= 0.1) {
+                $status = 'Layak';
+            } else {
+                $status = 'Tidak Layak';
             }
 
             $sheet->setCellValue('A' . $row, $alternative->rank > 0 ? $alternative->rank : '-');
@@ -186,8 +182,8 @@ class ReportController extends Controller
             $sheet->setCellValue('G' . $row, number_format($alternative->final_score, 4));
             $sheet->setCellValue('H' . $row, $status);
 
-            // Highlight top 3
-            if ($alternative->rank <= 3 && $alternative->rank > 0) {
+            // Highlight eligible candidates (score >= 0.1)
+            if ($alternative->final_score >= 0.1) {
                 $rowRange = 'A' . $row . ':H' . $row;
                 $sheet->getStyle($rowRange)->getFill()
                     ->setFillType(Fill::FILL_SOLID)
